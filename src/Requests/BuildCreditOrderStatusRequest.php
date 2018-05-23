@@ -24,6 +24,7 @@ class BuildCreditOrderStatusRequest extends Request
 
     public function __construct(array $config = [])
     {
+        $config = config('duiba');
         $this->appSecret = $config['appSecret'];
         $this->appKey = $config['appKey'];
         $this->config = $config;
@@ -31,8 +32,9 @@ class BuildCreditOrderStatusRequest extends Request
 
     public function handle(array $params)
     {
-        $array['timestamp'] = time() * 1000;
-        $array['sign'] = $this->sign(array_merge($this->config, $params));
-        return $this->assembleUrl("status/orderStatus", $array);
+        $params['timestamp'] = time() * 1000;
+        $params = array_merge($this->config, $params);
+        $params['sign'] = $this->sign($params);
+        return $this->assembleUrl("status/orderStatus", $params);
     }
 }

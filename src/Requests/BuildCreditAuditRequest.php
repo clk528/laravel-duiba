@@ -25,6 +25,7 @@ class BuildCreditAuditRequest extends Request
 
     public function __construct(array $config = [])
     {
+        $config = config('duiba');
         $this->appSecret = $config['appSecret'];
         $this->appKey = $config['appKey'];
         $this->config = $config;
@@ -55,8 +56,9 @@ class BuildCreditAuditRequest extends Request
             }
             $params["rejectOrderNums"] = $string;
         }
-        $array['timestamp'] = time() * 1000;
-        $params['sign'] = $this->sign(array_merge($this->config, $params));
+        $params['timestamp'] = time() * 1000;
+        $params = array_merge($this->config, $params);
+        $params['sign'] = $this->sign($params);
         return $this->assembleUrl("audit/apiAudit", $params);
     }
 }

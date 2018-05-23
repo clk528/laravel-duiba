@@ -10,18 +10,15 @@ namespace clk528\DuiBa;
 
 class DuiBa
 {
-    protected $config = [];
-
-    public function __construct()
+    public static function __callStatic($name, $arguments)
     {
-        $this->config = config("duiba");
-    }
-
-    public function __call($name, $arguments)
-    {
-        $class = __NAMESPACE__ . '\\Requests\\' . studly_case($name);
+        $class = __NAMESPACE__ . '\\Requests\\' . studly_case($name) . "Request";
         if (class_exists($class)) {
             $builder = app()->make($class);
+
+            if($name == 'checkResult'){
+                return $builder->handle(...$arguments);
+            }
             return $builder->handle(...$arguments);
         }
 
