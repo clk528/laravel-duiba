@@ -1,0 +1,40 @@
+{
+	"name": "clk528/laravel-duiba",
+	"description": "专注 兑 吧SDK扩展包",
+	"keywords": [
+		"兑吧",
+		"duiba",
+		"laravel-duiba"
+	],
+	"type": "library",
+	"support": {
+		"issues": "https://github.com/clk528/laravel-duiba/issues",
+		"source": "https://github.com/clk528/laravel-duiba"
+	},
+	"authors": [
+		{
+			"name": "clk528",
+			"email": "clk@clk528.com"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"ixudra/curl": "^6.16"
+	},
+	"autoload": {
+		"psr-4": {
+			"clk528\\DuiBa\\": "src"
+		}
+	},
+	"extra": {
+		"laravel": {
+			"providers": [
+				"clk528\\DuiBa\\Providers\\DuiBaProvider"
+			],
+			"aliases": {
+				"DuiBa": "clk528\\DuiBa\\Facades\\Pay\\DuiBaFacade"
+			}
+		}
+	},
+	"license": "MIT"
+}
