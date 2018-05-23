@@ -17,20 +17,6 @@ namespace clk528\DuiBa\Requests;
 
 class BuildCreditAuditRequest extends Request
 {
-    protected $config;
-
-    protected $appKey;
-
-    protected $appSecret;
-
-    public function __construct(array $config = [])
-    {
-        $config = config('duiba');
-        $this->appSecret = $config['appSecret'];
-        $this->appKey = $config['appKey'];
-        $this->config = $config;
-    }
-
     public function handle(array $params)
     {
         if (isset($params['passOrderNums']) && !empty($params['passOrderNums'])) {
@@ -56,8 +42,11 @@ class BuildCreditAuditRequest extends Request
             }
             $params["rejectOrderNums"] = $string;
         }
+
+        $config = config('duiba', []);
+
         $params['timestamp'] = time() * 1000;
-        $params = array_merge($this->config, $params);
+        $params = array_merge($config, $params);
         $params['sign'] = $this->sign($params);
         return $this->assembleUrl("audit/apiAudit", $params);
     }

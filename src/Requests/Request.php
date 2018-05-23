@@ -13,11 +13,29 @@ use Exception;
 
 abstract class Request implements GatewayInterface
 {
-    protected $requestUrl = "http://www.duiba.com.cn/";
+    /**
+     * 请求地址
+     * @var \Illuminate\Config\Repository|string
+     */
+    protected $requestUrl;
 
-    protected $appKey;
+    /**appkey
+     * @var \Illuminate\Config\Repository|string
+     */
+    private $appKey;
 
-    protected $appSecret;
+    /**
+     * appSecret
+     * @var \Illuminate\Config\Repository|string
+     */
+    private $appSecret;
+
+    public function __construct()
+    {
+        $this->appSecret = config('duiba.appSecret', '');
+        $this->appKey = config('duiba.appKey', '');
+        $this->requestUrl = config('duiba.requestUrl', 'http://www.duiba.com.cn/');
+    }
 
     /**
      * md5签名，$array中务必包含 appSecret
@@ -55,6 +73,14 @@ abstract class Request implements GatewayInterface
      */
     public function signVerify(array $array): bool
     {
+        if ($params["appKey"] != $this->appKey) {
+            throw new Exception("appKey not match");
+        }
+
+        if ($params["timestamp"] == null) {
+            throw new Exception("timestamp can't be null");
+        }
+
         $params = [
             'appSecret' => $this->appSecret
         ];

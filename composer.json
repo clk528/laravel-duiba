@@ -26,15 +26,5 @@
 			"clk528\\DuiBa\\": "src"
 		}
 	},
-	"extra": {
-		"laravel": {
-			"providers": [
-				"clk528\\DuiBa\\Providers\\DuiBaProvider"
-			],
-			"aliases": {
-				"DuiBa": "clk528\\DuiBa\\Facades\\Pay\\DuiBaFacade"
-			}
-		}
-	},
 	"license": "MIT"
 }

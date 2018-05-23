@@ -16,25 +16,14 @@ namespace clk528\DuiBa\Requests;
  */
 class BuildRedirectAutoLoginRequest extends Request
 {
-    protected $config;
-
-    protected $appKey;
-
-    protected $appSecret;
-
-    public function __construct(array $config = [])
-    {
-        $config = config('duiba');
-        $this->appSecret = $config['appSecret'];
-        $this->appKey = $config['appKey'];
-        $this->config = $config;
-    }
-
     public function handle(array $params)
     {
         unset($this->config['redirect']);
+
+        $config = config('duiba', []);
+
         $params['timestamp'] = time() * 1000;
-        $params = array_merge($this->config, $params);
+        $params = array_merge($config, $params);
         $params['sign'] = $this->sign($params);
         return $this->assembleUrl("autoLogin/autologin", $params);
     }

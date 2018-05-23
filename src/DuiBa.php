@@ -14,12 +14,8 @@ class DuiBa
     {
         $class = __NAMESPACE__ . '\\Requests\\' . studly_case($name) . "Request";
         if (class_exists($class)) {
-            $builder = app()->make($class);
-
-            if($name == 'checkResult'){
-                return $builder->handle(...$arguments);
-            }
-            return $builder->handle(...$arguments);
+            $app = app()->make($class);
+            return $app->handle(...$arguments);
         }
 
         throw new \Exception("{$name} not found");
