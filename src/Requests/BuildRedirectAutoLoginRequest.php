@@ -18,12 +18,12 @@ class BuildRedirectAutoLoginRequest extends Request
 {
     public function handle(array $params)
     {
-        unset($this->config['redirect']);
-
         $config = config('duiba', []);
-
         $params['timestamp'] = time() * 1000;
         $params = array_merge($config, $params);
+
+        unset($params['redirect']);
+
         $params['sign'] = $this->sign($params);
         return $this->assembleUrl("autoLogin/autologin", $params);
     }
